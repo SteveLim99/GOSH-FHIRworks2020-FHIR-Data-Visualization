@@ -1,0 +1,356 @@
+{% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Age Groups</h5>
+        <canvas id="ageChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Martial Groups</h5>
+        <canvas id="martialChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Gender Groups</h5>
+        <canvas id="genderChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Location Groups</h5>
+        <canvas id="locationChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Race Groups</h5>
+        <canvas id="raceChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Language Groups</h5>
+        <canvas id="languageChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  var ageChart = document.getElementById("ageChart").getContext("2d");
+  var martialChart = document.getElementById("martialChart").getContext("2d");
+  var ageValues = "{{ stats.age }}"
+    .slice(13, -1)
+    .replace("\\]", "")
+    .split(",");
+  var ageLen = 0;
+  for (i in ageValues) {
+    ageValues[i] = parseInt(ageValues[i]);
+    ageLen += 1;
+  }
+  var martialGroups = "{{ stats.martial }}"
+    .slice(13, -1)
+    .replace("\\]", "")
+    .split(",");
+  var martialLen = 0;
+  for (i in martialGroups) {
+    martialGroups[i] = parseInt(martialGroups[i]);
+    martialLen += 1;
+  }
+  var genderGroups = "{{ stats.martial }}"
+    .slice(13, -1)
+    .replace("\\]", "")
+    .split(",");
+  var genderLen = 0;
+  for (i in genderGroups) {
+    genderGroups[i] = parseInt(genderGroups[i]);
+    genderLen += 1;
+  }
+  var tmpLocation = "{{ stats.location }}"
+    .replace(/&#39;/g, "")
+    .replace(/\s/g, "")
+    .slice(1, -1)
+    .split(",");
+  var locations = [];
+  var locationCount = [];
+  var locationLen = 0;
+  for (i in tmpLocation) {
+    locationDict = tmpLocation[i].split(":");
+    locations.push(locationDict[0]);
+    locationCount.push(parseInt(locationDict[1]));
+    locationLen += 1;
+  }
+  var tmpRace = "{{ stats.race }}"
+    .replace(/&#39;/g, "")
+    .slice(1, -1)
+    .split(",");
+  var race = [];
+  var raceCount = [];
+  var raceLen = 0;
+  for (i in tmpRace) {
+    raceDict = tmpRace[i].split(":");
+    race.push(raceDict[0]);
+    raceCount.push(parseInt(raceDict[1]));
+    raceLen += 1;
+  }
+  var tmpLanguage = "{{ stats.language }}"
+    .replace(/&#39;/g, "")
+    .slice(1, -1)
+    .split(",");
+  var language = [];
+  var languageCount = [];
+  var languageLen = 0;
+  for (i in tmpLanguage) {
+    languageDict = tmpLanguage[i].split(":");
+    language.push(languageDict[0]);
+    languageCount.push(parseInt(languageDict[1]));
+    languageLen += 1;
+  }
+  var newAgeChart = new Chart(ageChart, {
+    type: "bar",
+    data: {
+      labels: [
+        "0 to 9",
+        "10 to 19",
+        "20 to 29",
+        "30 to 39",
+        "40 to 49",
+        "50 to 59",
+        "60 to 69",
+        "70 to 79",
+        "80 to 100",
+        "> 100"
+      ],
+      datasets: [
+        {
+          label: "FHIR Age Demograhics",
+          backgroundColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          borderColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          data: ageValues
+        }
+      ]
+    }
+  });
+  var newMartialChart = new Chart(martialChart, {
+    type: "pie",
+    data: {
+      labels: ["Never Married", "Single", "Married"],
+      datasets: [
+        {
+          label: "FHIR Age Demograhics",
+          backgroundColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          borderColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          data: martialGroups
+        }
+      ]
+    }
+  });
+  var newGenderChart = new Chart(genderChart, {
+    type: "pie",
+    data: {
+      labels: ["Male", "Female"],
+      datasets: [
+        {
+          label: "FHIR Age Demograhics",
+          backgroundColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          borderColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          data: genderGroups
+        }
+      ]
+    }
+  });
+  var newLocationChart = new Chart(locationChart, {
+    type: "bar",
+    data: {
+      labels: locations,
+      datasets: [
+        {
+          label: "FHIR Age Demograhics",
+          backgroundColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          borderColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          data: locationCount
+        }
+      ]
+    }
+  });
+  var newRaceChart = new Chart(raceChart, {
+    type: "pie",
+    data: {
+      labels: race,
+      datasets: [
+        {
+          label: "FHIR Age Demograhics",
+          backgroundColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          borderColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          data: raceCount
+        }
+      ]
+    }
+  });
+  var newLanguageChart = new Chart(languageChart, {
+    type: "pie",
+    data: {
+      labels: language,
+      datasets: [
+        {
+          backgroundColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          borderColor: [
+            "rgb(54, 162, 235,0.6)",
+            "rgb(255, 206, 86,0.6)",
+            "rgb(255, 206,86 ,0.6)",
+            "rgb(75, 192, 192,0.6)",
+            "rgb(153, 102, 255,0.6)",
+            "rgb(255, 159, 64,0.6)",
+            "rgb(255, 99, 132,0.6)"
+          ],
+          data: languageCount
+        }
+      ]
+    }
+  });
+  //   createChart(
+  //     "languageChart",
+  //     language,
+  //     languageCount,
+  //     languageLen,
+  //     d3.interpolateInferno,
+  //     { colorStart: 0, colorEnd: 1, useEndAsStart: false },
+  //     "pie"
+  //   );
+  //   function createChart(
+  //     chartId,
+  //     chartLabels,
+  //     // chartTitle,
+  //     chartData,
+  //     dataLength,
+  //     colorScale,
+  //     colorRangeInfo,
+  //     chartType
+  //   ) {
+  //     const charElement = document.getElementById(chartId);
+  //     var COLORS = d3.interpolateColors(dataLength, colorScale, colorRangeInfo);
+  //     const myChart = new Chart(charElement, {
+  //       type: chartType,
+  //       data: {
+  //         labels: chartLabels,
+  //         datasets: [
+  //           {
+  //             // label: chartTitle,
+  //             backgroundColor: COLORS,
+  //             borderColor: COLORS,
+  //             data: chartData
+  //           }
+  //         ]
+  //       }
+  //     });
+  //     return myChart;
+  //   }
+</script>
+{% endblock %}

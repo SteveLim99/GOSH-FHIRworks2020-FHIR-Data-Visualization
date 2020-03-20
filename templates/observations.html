@@ -1,0 +1,112 @@
+{% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
+<h3>{{patient.name.full_name}}'s Observation</h3>
+<div class=".container-md" style="width:100%; height: 200px;">
+  <div class="cellContainer">
+    <div style="margin: 5px">{{ patient.uuid }}</div>
+  </div>
+  <div class="cellContainer">
+    <div style="margin: 5px">{{ patient.gender }}</div>
+  </div>
+  <div class="cellContainer">
+    <div style="margin: 5px">{{ patient.communications.languages[0] }}</div>
+  </div>
+  <div class="cellContainer">
+    <div style="margin: 5px">{{ patient.birth_date }}</div>
+  </div>
+  <div class="cellContainer">
+    <div style="margin: 5px">{{ patient.marital_status }}</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Body Weight</h5>
+          <canvas id="weightChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">BMI</h5>
+          <canvas id="bmiChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Diastolic Blood Pressure</h5>
+          <canvas id="dbpChart"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Systolic Blood Pressure</h5>
+          <canvas id="sbpChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Pain Severity</h5>
+          <canvas id="painChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  createChart("weightChart", "line", "{{ obsData.bodyWeight }}");
+  createChart("bmiChart", "line", "{{ obsData.BMI }}");
+  createChart("dbpChart", "line", "{{ obsData.dBP }}");
+  createChart("sbpChart", "line", "{{ obsData.sBP }}");
+  createChart("painChart", "line", "{{ obsData.pain }}");
+
+  function createChart(chartID, chartType, chartData) {
+    //Parsing data string
+    var labelsAndData = chartData
+      .replace(/&#39;/g, "")
+      .replace("/\s/g", "")
+      .replace(/[() ]/g, "")
+      .slice(1, -1)
+      .split(",");
+
+    //Seperating list of labels and data
+    var labels = [];
+    var data = [];
+    for (i in labelsAndData) {
+      if (i % 2 == 0) {
+        labels.push(labelsAndData[i]);
+      } else {
+        data.push(parseInt(labelsAndData[i]));
+      }
+    }
+
+    //Updating canvas element in document
+    const chartElement = document.getElementById(chartID);
+    const myChart = new Chart(chartElement, {
+      type: chartType,
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            backgroundColor: "rgb(54, 162, 235,0.6)",
+            borderColor: "rgb(54, 162, 235,0.6)",
+            data: data
+          }
+        ]
+      }
+    });
+    return myChart;
+  }
+</script>
+{% endblock %}
