@@ -1,21 +1,13 @@
-.cellContainer {
-  width: 25%;
-  float: left;
-}
-
 .wrapper {
   display: flex;
-  width: 100px;
+  width: 200px;
 }
 
 .wrapper .sidebar {
   width: 250px;
   height: 100vh;
   z-index: 999;
-  top: 0;
-  left: 0;
-  transition: all 0.3s;
-  background: #4b4276;
+  background: #191970;
   padding: 30px 0px;
   position: fixed;
 }
@@ -25,4 +17,11 @@
   text-transform: uppercase;
   text-align: center;
   margin-bottom: 30px;
+}
+
+.wrapper .sidebar ul li {
+  padding: 20px;
+  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #fff;
 }

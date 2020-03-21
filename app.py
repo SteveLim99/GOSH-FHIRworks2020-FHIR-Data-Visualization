@@ -10,10 +10,6 @@ def index():
     patients = fhir.get_all_patients()
     return render_template('main.html', patients=patients)
 
-# @app.route("/search")
-# def searching():
-
-
 @app.route('/patientObs/<string:id>')
 def general(id):
     fhir = FHIR()

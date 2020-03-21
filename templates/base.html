@@ -9,33 +9,44 @@
     />
     <link
       rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
       type="text/css"
       href="{{ url_for('static',filename='css/main.css') }}"
     />
-    <title>FHIR Patient Dashboard</title>
+    <title href="/">FHIR Patient Dashboard</title>
     {% block head %}{% endblock %}
   </head>
   <body>
     <div class="wrapper">
-      <div class="sidebar">
-        <h2>FHIR Dashboard</h2>
+      <nav class="sidebar">
+        <h2><a href="/" style="color:white" title="Home">FHIR Dashboard</a></h2>
         <ul class="list-unstyled components">
           <li class="active">
-            <a href="/">Patient List</a>
+            <a href="/" style="color:white;">Patient List</a>
           </li>
           <li>
-            <a href="/demographics">FHIR Demographics</a>
+            <a href="/demographics" style="color:white;">FHIR Demographics</a>
           </li>
         </ul>
-      </div>
-      <div class="content" style="margin-left:250px; margin-top: 25px;">
-        {% block body %}{% endblock %}
-      </div>
+      </nav>
+    </div>
+    <div class="content" style="margin-left:300px; margin-top: 25px;">
+      {% block body %}{% endblock %}
     </div>
     <!-- Scripts -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+      integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
       crossorigin="anonymous"
     ></script>
     <script

@@ -55,6 +55,12 @@
 </div>
 {% endblock %} {% block scripts %}
 <script>
+    const colorScale = d3.interpolateInferno;
+    const colorRangeInfo = {
+        colorStart: 0.15,
+        colorEnd: 0.95,
+        useEndAsStart: true,
+    };
     //Age Demographics
     var ageChart = document.getElementById("ageChart").getContext("2d");
     var maritalChart = document.getElementById("maritalChart").getContext("2d");
@@ -81,6 +87,7 @@
             "80 to 100",
             "> 100"
         ],
+        "Number of Individuals",
         ageValues,
         ageLen,
         colorScale,
@@ -101,6 +108,7 @@
     createChart(
         "maritalChart",
         ["Never Married", "Single", "Married"],
+        "Number of Individuals",
         maritalGroups,
         maritalLen,
         colorScale,
@@ -121,6 +129,7 @@
     createChart(
         "genderChart",
         ["Male", "Female"],
+        "Number of Individuals",
         genderGroups,
         genderLen,
         colorScale,
@@ -146,6 +155,7 @@
     createChart(
         "locationChart",
         locations,
+        "Number of Individuals",
         locationCount,
         locationLen,
         colorScale,
@@ -175,6 +185,7 @@
     createChart(
         "raceChart",
         race,
+        "Number of Individuals",
         raceCount,
         raceLen,
         colorScale,
@@ -196,15 +207,10 @@
         languageCount.push(parseInt(languageDict[1]));
         languageLen += 1;
     }
-    const colorScale = d3.interpolateInferno;
-    const colorRangeInfo = {
-        colorStart: 0.15,
-        colorEnd: 0.95,
-        useEndAsStart: true,
-    };
     createChart(
         "languageChart",
         language,
+        "Number of Individuals",
         languageCount,
         languageLen,
         colorScale,
@@ -216,6 +222,7 @@
     function createChart(
         chartId,
         chartLabels,
+        chartTitle,
         chartData,
         dataLength,
         colorScale,
@@ -230,6 +237,7 @@
             labels: chartLabels,
             datasets: [
             {
+                label: chartTitle,
                 backgroundColor: COLORS,
                 data: chartData
             }

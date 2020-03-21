@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
-<h3>{{patient.name.full_name}}</h3>
+<h5>{{patient.name.full_name}}</h5>
 <table
   class="table"
   cellpadding="5"
@@ -67,7 +67,7 @@
 
 <div class=".container-md" style="width:100%; height: 200px;">
   <div class="row">
-    <div class="col-sm-7" style="margin-bottom: 10px;">
+    <div class="col-sm-6" style="margin-bottom: 10px;">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Body Weight</h5>
@@ -103,7 +103,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-6" style="margin-bottom: 10px;">
+    <div class="col-sm-6" style="margin-bottom: 10px; margin-left: 400px;">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Pain Severity</h5>
@@ -118,35 +118,40 @@
   createChart(
     "weightChart",
     "line",
+    "kg",
     "{{ obsData.bodyWeight }}",
     "rgb(54, 162, 235,0.6)"
   );
   createChart(
     "bmiChart",
     "line",
+    "kg/m2",
     "{{ obsData.BMI }}",
     "rgb(255, 206, 86, 0.6)"
   );
   createChart(
     "dbpChart",
     "line",
+    "mm[Hg]",
     "{{ obsData.dBP }}",
     "rgb( 75, 192, 192, 0.6)"
   );
   createChart(
     "sbpChart",
     "line",
+    "mm[Hg]",
     "{{ obsData.sBP }}",
     "rgb(153, 102, 255,0.6)"
   );
   createChart(
     "painChart",
     "line",
+    "0-10 verbal numeric rating [Score]",
     "{{ obsData.pain }}",
     "rgb(255, 159, 64,0.6)"
   );
 
-  function createChart(chartID, chartType, chartData, color) {
+  function createChart(chartID, chartType, chartTitle, chartData, color) {
     //Parsing data string
     var labelsAndData = chartData
       .replace(/&#39;/g, "")
@@ -174,6 +179,7 @@
         labels: labels,
         datasets: [
           {
+            label: chartTitle,
             backgroundColor: color,
             borderColor: color,
             data: data
