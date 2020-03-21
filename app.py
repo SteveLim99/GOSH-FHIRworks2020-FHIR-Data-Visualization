@@ -10,6 +10,10 @@ def index():
     patients = fhir.get_all_patients()
     return render_template('main.html', patients=patients)
 
+# @app.route("/search")
+# def searching():
+
+
 @app.route('/patientObs/<string:id>')
 def general(id):
     fhir = FHIR()
@@ -73,7 +77,7 @@ def averageBP():
                  '70 to 79':0,
                  '80 to 100':0,
                  '> 100':0},
-        'martial' : {'Never Married':0,
+        'marital' : {'Never Married':0,
                      "Single":0,
                      'Married':0},
         'gender' : {'male':0,
@@ -84,7 +88,7 @@ def averageBP():
     }
     for patient in patients: 
         age = abs(datetime.today().year - patient.birth_date.year)
-        martial = str(patient.marital_status)
+        marital = str(patient.marital_status)
         gender = str(patient.gender)
         locations = [str(i.state) for i in patient.addresses]
         race = str(patient.get_extension('us-core-race'))
@@ -101,7 +105,7 @@ def averageBP():
         elif age >= 80 and age <= 100: statistics['age']['80 to 100'] +=  1
         else: statistics['age']['> 100'] += 1
 
-        statistics['martial'][martial] += 1
+        statistics['marital'][marital] += 1
         statistics['gender'][gender] += 1
         for i in locations:
             if statistics['location'].get(i) == None: statistics['location'][i] = 1
@@ -114,7 +118,7 @@ def averageBP():
             if statistics['language'].get(i) == None: statistics['language'][i] = 1
             else: statistics['language'][i] += 1
     statistics['age'] = statistics['age'].values()
-    statistics['martial'] = statistics['martial'].values() 
+    statistics['marital'] = statistics['marital'].values() 
     statistics['gender'] = statistics['gender'].values() 
     return render_template("demographic.html", stats = statistics)
 

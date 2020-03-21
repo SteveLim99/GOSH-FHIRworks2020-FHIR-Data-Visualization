@@ -1,23 +1,73 @@
 {% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
-<h3>{{patient.name.full_name}}'s Observation</h3>
+<h3>{{patient.name.full_name}}</h3>
+<table
+  class="table"
+  cellpadding="5"
+  cellspacing="0"
+  border="0"
+  style="padding-left:50px; margin-top: 20px;"
+>
+  <thread>
+    <tr id="myDetails">
+      <th>Patient's Credentials</th>
+    </tr>
+  </thread>
+
+  <tbody id="details-body" style="display:none">
+    <tr>
+      <td>First Name: {{patient.name.given}}</td>
+    </tr>
+    <tr>
+      <td>Last Name: {{patient.name.family}}</td>
+    </tr>
+    <tr>
+      <td>Patient ID: {{patient.uuid}}</td>
+    </tr>
+    <tr>
+      <td>Gender: {{patient.gender}}</td>
+    </tr>
+    <tr>
+      <td>Address: {{patient.addresses[0].full_address}}</td>
+    </tr>
+    <tr>
+      <td>Birth Date: {{patient.birth_date}}</td>
+    </tr>
+  </tbody>
+
+  <thread>
+    <tr id="myObs">
+      <th>Latest Oberservations</th>
+    </tr>
+  </thread>
+
+  <tbody id="obs-body" style="display:none">
+    <tr>
+      <td>UUID: {{obsData.latestObs.uuid}}</td>
+    </tr>
+    <tr>
+      <td>Date: {{obsData.latestObs.latestDate}}</td>
+    </tr>
+    <tr>
+      <td>Type: {{obsData.latestObs.type}}</td>
+    </tr>
+    <tr>
+      <td>Status: {{obsData.latestObs.status}}</td>
+    </tr>
+    <tr>
+      <td>Weight: {{obsData.latestObs.weight}}</td>
+    </tr>
+    <tr>
+      <td>BMI: {{obsData.latestObs.BMI}}</td>
+    </tr>
+    <tr>
+      <td>Systolic Blood Pressure: {{obsData.latestObs.sBP}}</td>
+    </tr>
+  </tbody>
+</table>
+
 <div class=".container-md" style="width:100%; height: 200px;">
-  <div class="cellContainer">
-    <div style="margin: 5px">{{ patient.uuid }}</div>
-  </div>
-  <div class="cellContainer">
-    <div style="margin: 5px">{{ patient.gender }}</div>
-  </div>
-  <div class="cellContainer">
-    <div style="margin: 5px">{{ patient.communications.languages[0] }}</div>
-  </div>
-  <div class="cellContainer">
-    <div style="margin: 5px">{{ patient.birth_date }}</div>
-  </div>
-  <div class="cellContainer">
-    <div style="margin: 5px">{{ patient.marital_status }}</div>
-  </div>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-7" style="margin-bottom: 10px;">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Body Weight</h5>
@@ -25,7 +75,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6" style="margin-bottom: 10px;">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">BMI</h5>
@@ -35,7 +85,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-6" style="margin-bottom: 10px;">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Diastolic Blood Pressure</h5>
@@ -43,7 +93,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6" style="margin-bottom: 10px;">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Systolic Blood Pressure</h5>
@@ -53,7 +103,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-6" style="margin-bottom: 10px;">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Pain Severity</h5>
@@ -65,13 +115,38 @@
 </div>
 {% endblock %} {% block scripts %}
 <script>
-  createChart("weightChart", "line", "{{ obsData.bodyWeight }}");
-  createChart("bmiChart", "line", "{{ obsData.BMI }}");
-  createChart("dbpChart", "line", "{{ obsData.dBP }}");
-  createChart("sbpChart", "line", "{{ obsData.sBP }}");
-  createChart("painChart", "line", "{{ obsData.pain }}");
+  createChart(
+    "weightChart",
+    "line",
+    "{{ obsData.bodyWeight }}",
+    "rgb(54, 162, 235,0.6)"
+  );
+  createChart(
+    "bmiChart",
+    "line",
+    "{{ obsData.BMI }}",
+    "rgb(255, 206, 86, 0.6)"
+  );
+  createChart(
+    "dbpChart",
+    "line",
+    "{{ obsData.dBP }}",
+    "rgb( 75, 192, 192, 0.6)"
+  );
+  createChart(
+    "sbpChart",
+    "line",
+    "{{ obsData.sBP }}",
+    "rgb(153, 102, 255,0.6)"
+  );
+  createChart(
+    "painChart",
+    "line",
+    "{{ obsData.pain }}",
+    "rgb(255, 159, 64,0.6)"
+  );
 
-  function createChart(chartID, chartType, chartData) {
+  function createChart(chartID, chartType, chartData, color) {
     //Parsing data string
     var labelsAndData = chartData
       .replace(/&#39;/g, "")
@@ -99,12 +174,32 @@
         labels: labels,
         datasets: [
           {
-            backgroundColor: "rgb(54, 162, 235,0.6)",
-            borderColor: "rgb(54, 162, 235,0.6)",
+            backgroundColor: color,
+            borderColor: color,
             data: data
           }
         ]
       }
+    });
+
+    $(document).ready(function() {
+      $("#myDetails").on("click", function() {
+        var body = document.getElementById("details-body");
+        if (body.style.display == "none") {
+          body.style.display = "block";
+        } else {
+          body.style.display = "none";
+        }
+      });
+
+      $("#myObs").on("click", function() {
+        var body = document.getElementById("obs-body");
+        if (body.style.display == "none") {
+          body.style.display = "block";
+        } else {
+          body.style.display = "none";
+        }
+      });
     });
     return myChart;
   }

@@ -5,38 +5,25 @@
     class="form-control mr-sm-2"
     id="myInput"
     type="text"
-    placeholder="Search.."
+    placeholder="Search Name.."
   />
 </form>
 <br />
 <div class="">
-  <!-- <ul class="list-group" id="myList">
-    {% for patient in patients %}
-    <a
-      href="patient/{{patient.uuid}}"
-      class="list-group-item list-group-item-action"
-      id="{{patient.uuid}}"
-      >{{patient.name.given + " " + patient.name.family}}</a
-    >
-    {% endfor %}
-  </ul> -->
   <table class="table" id="patient-table">
     <thread>
       <tr>
-        <th>First</th>
-        <th>Last</th>
-        <th>Birth Date</th>
+        <th>Name</th>
+        <th>ID</th>
         <th>More</th>
       </tr>
     </thread>
 
-    <tbody id="patient-table-body">
+    <tbody>
       {% for patient in patients %}
-
       <tr>
-        <td>{{patient.name.given}}</td>
-        <td>{{patient.name.family}}</td>
-        <td>{{patient.birth_date}}</td>
+        <td>{{patient.name.given}} {{patient.name.family}}</td>
+        <td>{{patient.uuid}}</td>
         <td>
           <a href="patientObs/{{patient.uuid}}">Patient's Observations</a>
         </td>
@@ -50,32 +37,26 @@
 <script>
   $(document).ready(function() {
     $("#myInput").on("keyup", function() {
-      var value = $(this)
-        .val()
-        .toLowerCase();
-      $("#myList a").filter(function() {
-        $(this).toggle(
-          $(this)
-            .text()
-            .toLowerCase()
-            .indexOf(value) > -1
-        );
-      });
+      var filter = document.getElementById("myInput").value.toLowerCase();
+      table = document.getElementById("patient-table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[0];
+        if (td) {
+          txtValue = td.textContent.toLowerCase();
+          if (txtValue.indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    });
+
+    $("#patient-table tbody").click(function() {
+      var tr = $(this).closest("td");
+      console.log(tr);
     });
   });
-
-  // buildTable();
-
-  // function buildTable() {
-  //   var table = $("patient-table-body");
-  //   for (i in patients) {
-
-  //     var row = `<tr>
-  //       <td>${patient.name.given}</td>
-  //       <td>${patient.name.family}</td>
-  //       </tr>`;
-  //     table.append(row);
-  //   }
-  // }
 </script>
 {% endblock %}
