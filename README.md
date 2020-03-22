@@ -34,12 +34,14 @@
 
 1. Clone the repo from [GOSH-FHIRworks2020](https://github.com/greenfrogs/FHIRworks_2020) and follow the deployment guide found on the repo. Ensure that the dotnet backend is running before you continue from this step.
 
-2. **Windows**
-   - `.\env\Scripts\activate`
-   - `flask run --port=2000`
-     **Linux**
-   - `.\env\Scripts\activate`
-   - `flask run --port=2000`
+2. Launching the FHIR Dashboard
+
+- **Windows**
+  - `.\env\Scripts\activate`
+  - `flask run --port=2000`
+- **Linux**
+  - `.\env\Scripts\activate`
+  - `flask run --port=2000`
 
 ## 3. API Endpoints
 
