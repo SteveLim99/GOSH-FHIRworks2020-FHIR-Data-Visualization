@@ -55,6 +55,8 @@
 
 ## 4. FHIR Dashboard Funtionalities
 
+![img](gifs/preview.gif)
+
 The dashboard can be used to display a list of patients, their observational data(latest observation uuid, date of observation, status, weight, bmi, systolic blood pressure) and more specific credentials such as (uuid, patient id, gender, address, birth date) along with a few graphs to allow users to properly visualize data across a time scale.
 
 Clicking on the FHIR Demographics button will display a few graphs that shows the different demographical groups found on the FHIR database. Such groups includes the age group, location group, languages group etc.
