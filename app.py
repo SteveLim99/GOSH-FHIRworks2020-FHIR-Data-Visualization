@@ -11,7 +11,7 @@ def index():
     return render_template('main.html', patients=patients)
 
 @app.route('/patientObs/<string:id>')
-def general(id):
+def observations(id):
     fhir = FHIR()
     patient = fhir.get_patient(id)
     observations = fhir.get_patient_observations(id)
@@ -59,7 +59,7 @@ def general(id):
     return render_template("observations.html", obsData = spreadSheet, patient = patient)
 
 @app.route('/demographics')
-def averageBP():
+def demographicGroups():
     fhir=FHIR()
     patients = fhir.get_all_patients()
     statistics = {
