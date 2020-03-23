@@ -1,4 +1,4 @@
-# GOSH-FHIRworks2020-FHIRDashboard
+# GOSH-FHIRworks2020-FHIRDataVisualization
 
 ## 1. Setting up
 
@@ -30,11 +30,11 @@
      - `export FLASK_ENV=development`
      - ``export FLASK_APP=app.py`
 
-## 2. Starting the FHIR Dashboard
+## 2. Starting the FHIR WebApp
 
 1. Clone the repo from [GOSH-FHIRworks2020](https://github.com/greenfrogs/FHIRworks_2020) and follow the deployment guide found on the repo. Ensure that the dotnet backend is running before you continue from this step.
 
-2. Launching the FHIR Dashboard
+2. Launching the FHIR Webapp
 
 - **Windows**
   - `.\env\Scripts\activate`
@@ -53,7 +53,7 @@
 
 - GET observations returns the patient observation data across the timescale, descriptions and key data of the latest observations: `/patientObs/patient ID`
 
-## 4. FHIR Dashboard Funtionalities
+## 4. FHIR WebApp Funtionalities
 
 ![img](gifs/preview.gif)
 
