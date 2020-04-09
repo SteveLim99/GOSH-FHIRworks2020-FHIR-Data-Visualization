@@ -19,7 +19,7 @@
 
      - `pip install virtualenv`
      - `virtualenv env`
-     - `.\env\Scripts\activate`
+     - `source env/bin/activate`
 
   3. Install packages
      - pip install -r .\requirements.txt
