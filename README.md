@@ -8,7 +8,7 @@
   2. pip install virtualenv
   3. virtualenv env
   4. .\env\Scripts\activate
-  5. pip install -r .\requirements.txt
+  5. pip install -r requirements.txt
   6. \$env:FLASK_ENV = "development"
   7. \$env:FLASK_APP = "app.py"
 
@@ -22,7 +22,7 @@
      - `source env/bin/activate`
 
   3. Install packages
-     - pip install -r .\requirements.txt
+     - `pip install -r requirements.txt`
 
   4. Setup Flask environment
      - `export FLASK_ENV=development`
