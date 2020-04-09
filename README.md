@@ -7,9 +7,10 @@
   1. Ensure that Python 3.7 or above is installed.
   2. pip install virtualenv
   3. virtualenv env
-  4. pip install -r .\requirements.txt
-  5. \$env:FLASK_ENV = "development"
-  6. \$env:FLASK_APP = "app.py"
+  4. .\env\Scripts\activate
+  5. pip install -r .\requirements.txt
+  6. \$env:FLASK_ENV = "development"
+  7. \$env:FLASK_APP = "app.py"
 
 - **Linux**
 
@@ -18,9 +19,9 @@
 
      - `pip install virtualenv`
      - `virtualenv env`
+     - `.\env\Scripts\activate`
 
   3. Install packages
-
      - pip install -r .\requirements.txt
 
   4. Setup Flask environment
@@ -34,10 +35,8 @@
 2. Launching the FHIR Webapp
 
 - **Windows**
-  - `.\env\Scripts\activate`
   - `flask run --port=2000`
 - **Linux**
-  - `source env/bin/activate`
   - `flask run --port=2000`
 
 ## 3. API Endpoints
