@@ -18,17 +18,14 @@
 
      - `pip install virtualenv`
      - `virtualenv env`
-     - `source env/bin/activate`
 
   3. Install packages
 
-     - `pip install flask`
-     - `pip install FHIR-Parser`
+     - pip install -r .\requirements.txt
 
   4. Setup Flask environment
-     - `source env/bin/activate`
      - `export FLASK_ENV=development`
-     - ``export FLASK_APP=app.py`
+     - `export FLASK_APP=app.py`
 
 ## 2. Starting the FHIR WebApp
 
@@ -40,7 +37,7 @@
   - `.\env\Scripts\activate`
   - `flask run --port=2000`
 - **Linux**
-  - `.\env\Scripts\activate`
+  - `source env/bin/activate`
   - `flask run --port=2000`
 
 ## 3. API Endpoints
